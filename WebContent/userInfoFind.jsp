@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="user.UserDAO" %>    
+<%@ page import="user.UserDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,25 +67,35 @@
     		</form>
 		</div>
 	</nav>
+	<!-- 아이디 찾기 -->
 	<section class="container mt-3" style="max-width: 560px;">
-		<form method="post" action="userLoginAction.jsp">
+		<form method="post" action="userIDFindAction.jsp">
+			<span style="color:blue;">아이디 찾기</span>
+			<div class="form-group">
+				<label>가입시 입력한 이메일</label>
+				<input type="text" name="userEmail" class="form-control">
+			</div>
+			<button type="submit" class="btn btn-primary">아이디 찾기</button>		
+		</form>
+	</section>
+	
+	<!-- 비밀번호 찾기 -->
+	<section class="container mt-3" style="max-width: 560px;">
+		<form method="post" action="./userPasswordFindAction.jsp">
+			<span style="color:blue;">비밀번호 찾기</span>
 			<div class="form-group">
 				<label>아이디</label>
 				<input type="text" name="userID" class="form-control">
 			</div>
 			<div class="form-group">
-				<label>비밀번호</label>
-				<input type="password" name="userPassword" class="form-control">
+				<label>가입시 입력한 이메일</label>
+				<input type="text" name="userEmail" class="form-control">
 			</div>
-			<button type="submit" class="btn btn-primary">로그인</button>
-			<!--<button onclick="location='userInfoFindAction.jsp'" class="btn btn-secondary">아이디/비밀번호 찾기</button>-->		
+			<button type="submit" class="btn btn-primary">비밀번호 찾기</button>		
 		</form>
-		
-		<button  onclick="location='userInfoFind.jsp'" class="btn btn-secondary mt-2">아이디/비밀번호 찾기</button>
-		
 	</section>
 	
-	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFFF;">
+	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFF;">
 		Copyright &copy; 2019이승준All Right Reserved.
 	</footer>
 	<!-- 제이쿼리 자바스크립트 추가하기 -->

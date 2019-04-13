@@ -251,5 +251,141 @@ public class UserDAO {
 		
 		return false;  //데이터 베이스 오류
 	}
+	
+	public String getUserIDbyHashCode(String code) {
+		String SQL = "SELECT userID FROM user WHERE  userEmailHash = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		
+		try {
+			conn = DatabaseUtill.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			
+			pstmt.setString(1, code);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getString(1);
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();	
+		}finally {
+			try {
+				if(conn != null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}try {
+				if(rs != null) {
+					rs.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;  //데이터 베이스 오류
+		
+	}
+	
+	public int SearchCol(String target) {
+		String SQL = "select exists (select * from user where userID = ?)";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		
+		try {
+			conn = DatabaseUtill.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			
+			pstmt.setString(1, target);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();	
+		}finally {
+			try {
+				if(conn != null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}try {
+				if(rs != null) {
+					rs.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return -1;  //데이터 베이스 오류
+		
+	}
+	
+	public int UpdatePassword(String userID, String userNewPassword) {
+		String SQL = "UPDATE user SET userPassword = ? WHERE userID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+	
+	
+		
+		try {
+			conn = DatabaseUtill.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			
+			pstmt.setString(1, userNewPassword);
+			pstmt.setString(2, userID);
+			return pstmt.executeUpdate();
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();	
+		}finally {
+			try {
+				if(conn != null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return -1;  //데이터 베이스 오류
+	}
 
 }

@@ -1,7 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="user.UserDAO" %>    
+<%@ page import = "user.UserDAO"%>
+<%@ page import="utill.SHA256"%>
+<%@ page import="java.io.PrintWriter"%>
+
+<%
+	request.setCharacterEncoding("UTF-8");
+	String userID = null;
+	String code = null;
+	UserDAO userDAO = new UserDAO();
+
+	if(session.getAttribute("userID") != null){  //로그인 상태인지 확인
+		userID = (String) session.getAttribute("userID");
+	}
+	
+	if(userID != null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인 상태입니다.');");
+		script.println("location.href = './userLogin.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	if(request.getParameter("code") != null){
+		code = (String) request.getParameter("code");
+	}
+	System.out.println("Email send code is "+ code);
+	String findUserID = null;
+	findUserID = userDAO.getUserIDbyHashCode(code);
+
+%>	
+<%
+	if(findUserID != null){
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,22 +45,7 @@
 <link rel="stylesheet" href="./css/custom.css">
 </head>
 <body>
-<%
-	String userID = null;
-	if(session.getAttribute("userID") != null){
-		userID = (String) session.getAttribute("userID");
-	}
-	if(userID != null){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인이 된 상테입니다.');");
-		script.println("location.href = 'index.jsp';");
-		script.println("</script>");
-		script.close();
-		return;
-	}
 
-%>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="index.jsp">학점을 부탁해(강의평가)</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -67,23 +84,16 @@
     		</form>
 		</div>
 	</nav>
+	
 	<section class="container mt-3" style="max-width: 560px;">
-		<form method="post" action="userLoginAction.jsp">
 			<div class="form-group">
-				<label>아이디</label>
-				<input type="text" name="userID" class="form-control">
+				<label>
+					찾은 이메일 : &nbsp;<%=findUserID  %>
+				</label>
 			</div>
-			<div class="form-group">
-				<label>비밀번호</label>
-				<input type="password" name="userPassword" class="form-control">
-			</div>
-			<button type="submit" class="btn btn-primary">로그인</button>
-			<!--<button onclick="location='userInfoFindAction.jsp'" class="btn btn-secondary">아이디/비밀번호 찾기</button>-->		
-		</form>
-		
-		<button  onclick="location='userInfoFind.jsp'" class="btn btn-secondary mt-2">아이디/비밀번호 찾기</button>
-		
+			<button onclick="location='userInfoFind.jsp'" class="btn btn-primary">돌아가기</button>		
 	</section>
+	
 	
 	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFFF;">
 		Copyright &copy; 2019이승준All Right Reserved.
@@ -96,3 +106,17 @@
 	<script src="./js/bootstrap.min.js"></script>
 </body>
 </html>
+<% 		
+	}
+	else{
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('가입 정보가 없습니다.');");
+		script.println("location.href = 'userInfoFind.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	
+	
+%>

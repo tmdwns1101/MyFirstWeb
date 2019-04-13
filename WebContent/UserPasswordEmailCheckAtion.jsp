@@ -1,7 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="user.UserDAO" %>    
+<%@ page import = "user.UserDAO"%>
+<%@ page import="utill.SHA256"%>
+<%@ page import="java.io.PrintWriter"%>
+
+<%
+	request.setCharacterEncoding("UTF-8");
+	String userID = null;
+	String code = null;
+	UserDAO userDAO = new UserDAO();
+
+	if(request.getParameter("userID") != null){ 
+		userID = (String) request.getParameter("userID");
+	}
+	
+
+	if(request.getParameter("code") != null){
+		code = (String) request.getParameter("code");
+	}
+	System.out.println("Email send code is "+ code);
+	String userEmail = userDAO.getUserEmail(userID);
+	System.out.println("user Email  is "+ userEmail);
+	boolean isRight = (new SHA256().getSHA256(userEmail).equals(code)) ? true : false;
+	
+	if(isRight == true){		
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,22 +36,6 @@
 <link rel="stylesheet" href="./css/custom.css">
 </head>
 <body>
-<%
-	String userID = null;
-	if(session.getAttribute("userID") != null){
-		userID = (String) session.getAttribute("userID");
-	}
-	if(userID != null){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인이 된 상테입니다.');");
-		script.println("location.href = 'index.jsp';");
-		script.println("</script>");
-		script.close();
-		return;
-	}
-
-%>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="index.jsp">학점을 부탁해(강의평가)</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -44,20 +51,8 @@
 						회원관리
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-<%
-	if(userID == null){
-		
-%>       					
        					<a class="dropdown-item" href="userLogin.jsp">로그인</a>
           				<a class="dropdown-item" href="userJoin.jsp">회원가입</a>
-<% 
-	} else{
-%>	
-						<a class="dropdown-item" href="userLogOutAction.jsp">로그아웃</a>
-          				
-<%
-	}
-%>          				
           			</div>
 				</li>	
 			</ul>
@@ -68,21 +63,19 @@
 		</div>
 	</nav>
 	<section class="container mt-3" style="max-width: 560px;">
-		<form method="post" action="userLoginAction.jsp">
-			<div class="form-group">
-				<label>아이디</label>
-				<input type="text" name="userID" class="form-control">
-			</div>
+		<form method="post" action="userPasswordUpdateAction.jsp">
 			<div class="form-group">
 				<label>비밀번호</label>
 				<input type="password" name="userPassword" class="form-control">
+				<small style="color:red;">숫자,특수문자,알파벳조합으로 8자이상</small>
 			</div>
-			<button type="submit" class="btn btn-primary">로그인</button>
-			<!--<button onclick="location='userInfoFindAction.jsp'" class="btn btn-secondary">아이디/비밀번호 찾기</button>-->		
+			<div class="form-group">
+				<label>비밀번호 확인</label>
+				<input type="password" name="userPasswordChecked" class="form-control">
+			</div>
+			<input type="hidden" value="<%= userID %>" name="userID">
+			<button type="submit" class="btn btn-primary">비밀번호 변경</button>		
 		</form>
-		
-		<button  onclick="location='userInfoFind.jsp'" class="btn btn-secondary mt-2">아이디/비밀번호 찾기</button>
-		
 	</section>
 	
 	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFFF;">
@@ -96,3 +89,17 @@
 	<script src="./js/bootstrap.min.js"></script>
 </body>
 </html>
+<%  	
+	}
+	else{
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('유효하지 않은 코드입니다.');");
+		script.println("location.href = 'index.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	
+	
+%>

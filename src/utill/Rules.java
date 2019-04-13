@@ -18,7 +18,7 @@ public class Rules {
 				if(cur > 47  && cur < 58 ) {
 					checker[2] = true;
 					}
-				else if(cur > 32 && cur < 48) {
+				else if((cur > 32 && cur < 48) || (cur > 62 && cur < 65)) {
 					checker[1] = true;
 					}
 				else if(cur > 64 && cur <91) {
