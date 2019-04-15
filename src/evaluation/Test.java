@@ -9,6 +9,6 @@ public class Test {
 		System.out.println("메인 들어갔다 왔어!");
 		EvaluationDAO testDAO = new EvaluationDAO();
 		ArrayList<EvaluationDTO> test = new ArrayList<EvaluationDTO>();
-		int result = testDAO.getEvaluationInfo("전체", test);
+		int result = testDAO.getEvaluationInfo("전체", "최신순", "학점", test);
 	}
 }

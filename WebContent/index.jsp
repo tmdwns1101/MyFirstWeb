@@ -42,16 +42,27 @@
 		script.close();
 		return;
 	}
-	String filter = "전체";
+	String filter1 = "전체";
 	if(request.getParameter("lectureDivide") != null){
-		filter = (String) request.getParameter("lectureDivide");
+		filter1 = (String) request.getParameter("lectureDivide");
 		
 	}
-	System.out.println(filter);
+	String filter2 = "최신순";
+	if(request.getParameter("orderBy") != null){
+		filter2 = (String) request.getParameter("orderBy");
+		
+	}
+	String search = "";
+	if(request.getParameter("search") != null){
+		search = (String) request.getParameter("search");
+		
+	}
+	
+	System.out.println(filter2);
 	
 	EvaluationDAO evaluationDAO = new EvaluationDAO();
 	ArrayList<EvaluationDTO> evaluationInfoes = new ArrayList<EvaluationDTO>();
-	int result = evaluationDAO.getEvaluationInfo(filter, evaluationInfoes);
+	int result = evaluationDAO.getEvaluationInfo(filter1, filter2, search, evaluationInfoes);
 	int cnt = 0;
 	if(result == 1){
 		cnt = evaluationInfoes.size(); 
@@ -106,6 +117,10 @@
 				<option value="전공">전공</option>
 				<option value="교양">교양</option>
 				<option value="기타">기타</option>	
+			</select>
+			<select name="orderBy" class="form-control mx-1 mt-2">  
+				<option value="최신순" selected>최신 순</option>
+				<option value="추천순">추천 순</option>
 			</select>
 			<input type="text" name="search" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요">
 			<button type="submit" class="btn btn-primary mx-1 mt-2">검색</button>
