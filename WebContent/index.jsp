@@ -159,6 +159,7 @@
 <% 
 	if(cnt != 0) {
 		for(EvaluationDTO cur : evaluationInfoes) {
+			int evaluationID = cur.getEvaluationID();
 			String  evalUserID = cur.getUserID();
 			String 	lectureName = cur.getLectureName();
 			String 	professorName = cur.getProfessorName();
@@ -194,11 +195,11 @@
 						<span style="color:green;">(추천 수 : <%=likeCount%>)</span>
 					</div>
 					<div class="col-3 text-right">
-						<a onclick="return confirm('추천하시겠습니까?');" href="./likeAction.jsp?evaluationID=">추천</a>  <!-- 게시물 ID를 찾아 데이터베이스 접근 할 예정 -->
+						<a onclick="return confirm('추천하시겠습니까?');" href="likeAction.jsp?evaluationID=<%= evaluationID %>">추천</a>  <!-- 게시물 ID를 찾아 데이터베이스 접근 할 예정 -->
 <%
 	if(userID.equals(evalUserID)) {
 %>
-						<a onclick="return confirm('삭제하시겠습니까?');" href="./deleteAction.jsp?evaluationID=">삭제</a>
+						<a onclick="return confirm('삭제하시겠습니까?');" href="deleteAction.jsp?evaluationID=<%= evaluationID %>">삭제</a>
 <% 
 	}
 %>

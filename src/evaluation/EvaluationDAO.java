@@ -225,7 +225,7 @@ public class EvaluationDAO {
 		return -1;  //데이터 베이스 오류
 	}
 	
-	public String  getUserID(int evaluationID) {
+	public String  getUserID(String evaluationID) {
 		String SQL = "SELECT userID FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -236,7 +236,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -274,7 +274,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getLectureName(int evaluationID) {
+	public String  getLectureName(String evaluationID) {
 		String SQL = "SELECT lectureName FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -285,7 +285,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -323,7 +323,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getProfessorName(int evaluationID) {
+	public String  getProfessorName(String evaluationID) {
 		String SQL = "SELECT professorName FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -334,7 +334,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -372,7 +372,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public int  getLectureYear(int evaluationID) {
+	public int  getLectureYear(String evaluationID) {
 		String SQL = "SELECT lectureYear FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -383,7 +383,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -421,7 +421,7 @@ public class EvaluationDAO {
 		return -1;  //데이터 베이스 오류
 	}
 	
-	public String  getSemesterDivide(int evaluationID) {
+	public String  getSemesterDivide(String evaluationID) {
 		String SQL = "SELECT semesterDivide FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -432,7 +432,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -470,7 +470,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getLectureDivide(int evaluationID) {
+	public String  getLectureDivide(String evaluationID) {
 		String SQL = "SELECT lectureDivide FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -481,7 +481,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -519,7 +519,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getEvaluationTitle(int evaluationID) {
+	public String  getEvaluationTitle(String evaluationID) {
 		String SQL = "SELECT evaluationTitle FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -530,7 +530,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -568,7 +568,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getEvaluationContent(int evaluationID) {
+	public String  getEvaluationContent(String evaluationID) {
 		String SQL = "SELECT evaluationContent FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -579,7 +579,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -617,7 +617,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getTotalScore(int evaluationID) {
+	public String  getTotalScore(String evaluationID) {
 		String SQL = "SELECT totalScore FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -628,7 +628,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -666,7 +666,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getComfortableScore(int evaluationID) {
+	public String  getComfortableScore(String evaluationID) {
 		String SQL = "SELECT comfortableScore FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -678,7 +678,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -726,7 +726,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public String  getLectureScore(int evaluationID) {
+	public String  getLectureScore(String evaluationID) {
 		String SQL = "SELECT lectureScore FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -737,7 +737,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -775,7 +775,7 @@ public class EvaluationDAO {
 		return null;  //데이터 베이스 오류
 	}
 	
-	public int  getLikeCount(int evaluationID) {
+	public int  getLikeCount(String evaluationID) {
 		String SQL = "SELECT likeCount FROM EVALUATION WHERE  evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -786,7 +786,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtill.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, evaluationID);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
 	
 			
 			rs = pstmt.executeQuery();
@@ -823,6 +823,85 @@ public class EvaluationDAO {
 		
 		return -1;  //데이터 베이스 오류
 	}
+	
+	public int Like(String evaluationID) {
+		String SQL = "UPDATE evaluation SET  likeCount = likeCount + 1 WHERE evaluationID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+	
+	
+		
+		try {
+			conn = DatabaseUtill.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
+			
+			return pstmt.executeUpdate();
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();	
+		}finally {
+			try {
+				if(conn != null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return -1;  //데이터 베이스 오류
+	}
+	
+	public int Delete(String evaluationID) {
+		String SQL = "Delete FROM evaluation WHERE evaluationID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+	
+	
+		
+		try {
+			conn = DatabaseUtill.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
+			
+			
+			return pstmt.executeUpdate();
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();	
+		}finally {
+			try {
+				if(conn != null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return -1;  //데이터 베이스 오류
+	}
+	
 	
 	
 }
