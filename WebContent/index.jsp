@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="./css/bootstrap.min.css">
 <!-- 커스텀 CSS 추가하기 -->
 <link rel="stylesheet" href="./css/custom.css">
+<!--  구글 차트 -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 <%
@@ -69,9 +71,16 @@
 	}
 	//Test test = new Test();
 	//test.main();
+	
+	String showChart = "false";
+	if(request.getParameter("showChart") != null){
+		showChart = request.getParameter("showChart"); 
+	}
 
 	
 %>
+	
+
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="index.jsp">학점을 부탁해(강의평가)</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -110,6 +119,8 @@
     		</form>
 		</div>
 	</nav>
+
+	
 	<section class="container">
 		<form method="get" action="index.jsp" class="form-inline mt-3"> <!-- default method="get" -->
 			<select name="lectureDivide" class="form-control mx-1 mt-2">  
@@ -127,42 +138,17 @@
 			<a class="btn btn-primary mx-1 mt-2" data-toggle="modal" href="#registerModal">등록하기</a> 
 			<a class="btn btn-danger mx-1 mt-2" data-toggle="modal" href="#reportModal">신고하기</a>
 		</form>
-		<!-- 카드 보드 후에는 데이터 베이스에서 가져올 예정 -->
-		<div class="card bg-light mt-3">
-			<div class="card-header bg-light">
-				<div class="row">
-					<div class="col-8 text-left">알고리즘&nbsp;<small>김동성</small></div>
-					<div class="col-4 text-right">
-						종합&nbsp;<span style="color:red;">A</span>
-					</div>
-				</div>
-			</div>
-			<div class="card-body">
-				<h5 class="card-title">
-					알고리즘에 대해 많이 알 수 있었어요!!&nbsp;<small>(2018년 2학기)</small>
-				</h5>
-				<p class="card-text">수업 시간에 집중해서 잘 따라가면 알고리즘이라는 것을 이해 할 수 있는 좋은 수업이에요. 하지만! 수업 내용상 매우 어려워요 ㅠㅠ</p>
-				<div class="row">
-					<div class="col-9 text-left">
-						학점 취득 난이도&nbsp;<span style="color:red;">어려움</span>
-						강의력&nbsp;<samp style="color:blue;">A</samp>
-						<span style="color:green;">(추천 수 : 15)</span>
-					</div>
-					<div class="col-3 text-right">
-						<a onclick="return confirm('추천하시겠습니까?');" href="./likeAction.jsp?evaluationID=">추천</a>  <!-- 게시물 ID를 찾아 데이터베이스 접근 할 예정 -->
-						<a onclick="return confirm('삭제하시겠습니까?');" href="./deleteAction.jsp?evaluationID=">삭제</a>
-					</div>
-				</div>
-			</div>
-		</div> 
-		<!-- Test start-->
+	
 <% 
 	if(cnt != 0) {
+		int[] countScore = {0,0,0,0};
+		String 	lectureName = "";
+		String professorName = "";
 		for(EvaluationDTO cur : evaluationInfoes) {
 			int evaluationID = cur.getEvaluationID();
 			String  evalUserID = cur.getUserID();
-			String 	lectureName = cur.getLectureName();
-			String 	professorName = cur.getProfessorName();
+			lectureName = cur.getLectureName();
+			professorName = cur.getProfessorName();
 			int 	lectureYear = cur.getLectureYear();
 			String 	semesterDivide = cur.getSemesterDivide();
 			String 	lectureDivide = cur.getLectureDivide();
@@ -173,13 +159,30 @@
 			String 	lectureScore = cur.getLectureScore();
 			int 	likeCount = cur.getLikeCount();
 			System.out.println(evaluationContent);
+			if(!showChart.equals("false")){
+				
+				if(totalScore.equals("A")){
+					countScore[0] += 1;
+				}else if(totalScore.equals("B")){
+					countScore[1] += 1;
+				}else if(totalScore.equals("C")){
+					countScore[2] += 1;
+				}else{
+					countScore[3] += 1;
+				}
+			}else {
 %>
+
 	 <div class="card bg-light mt-3">
 			<div class="card-header bg-light">
 				<div class="row">
 					<div class="col-8 text-left"><%=lectureName%>&nbsp;<small><%=professorName%></small></div>
+					
 					<div class="col-4 text-right">
 						종합&nbsp;<span style="color:red;"><%=totalScore%></span>
+						<% String target = lectureName + professorName; %>
+						<a class="btn btn-primary" role="button" href="index.jsp?search=<%= target%>&showChart=true">다른사람평가확인</a>
+						
 					</div>
 				</div>
 			</div>
@@ -201,17 +204,53 @@
 %>
 						<a onclick="return confirm('삭제하시겠습니까?');" href="deleteAction.jsp?evaluationID=<%= evaluationID %>">삭제</a>
 <% 
-	}
+	} //201
 %>
 					</div>
 				</div>
 			</div>
 		</div> 
 <%
-		}
-	}
+		} //145
+	} //171		
+%>
+<%
+	if(!showChart.equals("false")){
+%>
+	<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['A',     <%= countScore[0]%>],
+          ['B',      <%= countScore[1]%>],
+          ['C',  <%= countScore[2]%>],
+          ['D', <%= countScore[3]%>],
+         
+        ]);
+
+        var options = {
+          //title: 'My Daily Activities'
+          title: '[<%= lectureName%> <%= professorName%>] 의 총 평가 비율'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+<%
+	} //212
+%>
+
+<%		
+	}//143
 %>	
-	<!-- Test end -->	 
+
 	</section>
 	<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
 		<div class="modal-dialog">
@@ -339,7 +378,10 @@
 			</div>
 		</div>
 	</div>
-	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFF;">
+	
+	
+	
+	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFFF;">
 		Copyright &copy; 2019이승준All Right Reserved.
 	</footer>
 	<!-- 제이쿼리 자바스크립트 추가하기 -->
