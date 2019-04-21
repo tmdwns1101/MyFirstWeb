@@ -54,7 +54,8 @@
 	} else{
 %>	
 						<a class="dropdown-item" href="userLogOutAction.jsp">로그아웃</a>
-          				
+          				<a class="dropdown-item" href="myPage.jsp">마이페이지</a>
+          				<a class="dropdown-item" href="noteBox.jsp">쪽지함</a>
 <%
 	}
 %>          				

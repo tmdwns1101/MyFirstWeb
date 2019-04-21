@@ -17,6 +17,16 @@
 <link rel="stylesheet" href="./css/custom.css">
 <!--  구글 차트 -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<!-- 제이쿼리 자바스크립트 추가하기 -->
+<script src="./js/jquery.min.js"></script>	
+<!-- 파퍼 자바스크립트 추가하기 -->
+<script src="./js/popper.min.js"></script>
+<!-- 부트스트랩 자바스크립트 추가하기 -->
+<script src="./js/bootstrap.min.js"></script>
+	
+
+	
 </head>
 <body>
 <%
@@ -78,6 +88,8 @@
 	}
 
 	
+	
+	
 %>
 	
 
@@ -106,6 +118,8 @@
 	} else{
 %>	
           				<a class="dropdown-item" href="userLogOutAction.jsp">로그아웃</a>
+          				<a class="dropdown-item" href="myPage.jsp">마이페이지</a>
+          				<a class="dropdown-item" href="noteBox.jsp">쪽지함</a>
           				
 <%
 	}
@@ -149,6 +163,7 @@
 			String  evalUserID = cur.getUserID();
 			lectureName = cur.getLectureName();
 			professorName = cur.getProfessorName();
+			String toUserID = cur.getUserID();
 			int 	lectureYear = cur.getLectureYear();
 			String 	semesterDivide = cur.getSemesterDivide();
 			String 	lectureDivide = cur.getLectureDivide();
@@ -170,7 +185,7 @@
 				}else{
 					countScore[3] += 1;
 				}
-			}else {
+			}
 %>
 
 	 <div class="card bg-light mt-3">
@@ -192,12 +207,16 @@
 				</h5>
 				<p class="card-text"><%=evaluationContent%></p>
 				<div class="row">
-					<div class="col-9 text-left">
+					<div class="col-7 text-left">
 						학점 취득 난이도&nbsp;<span style="color:red;"><%=comfortableScore%></span>
 						강의력&nbsp;<samp style="color:blue;"><%=lectureScore%></samp>
 						<span style="color:green;">(추천 수 : <%=likeCount%>)</span>
 					</div>
-					<div class="col-3 text-right">
+					<div class="col-5 text-right">
+			<% if(!userID.equals(toUserID)) { %>
+						<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#sendNoteBoxModal" 
+							data-evaluationid=<%= evaluationID%>>쪽지 보내기</button>
+			<% } %>
 						<a onclick="return confirm('추천하시겠습니까?');" href="likeAction.jsp?evaluationID=<%= evaluationID %>">추천</a>  <!-- 게시물 ID를 찾아 데이터베이스 접근 할 예정 -->
 <%
 	if(userID.equals(evalUserID)) {
@@ -212,7 +231,7 @@
 		</div> 
 <%
 		} //145
-	} //171		
+	
 %>
 <%
 	if(!showChart.equals("false")){
@@ -381,14 +400,62 @@
 	
 	
 	
+	
+	<!--  쪽지 보내기 모달 -->
+	<div class="modal fade" id="sendNoteBoxModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"> <!-- 제목 -->
+					<h5 class="modal-title" id="modal">쪽지 보내기</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">  <!-- 'x' 버튼 -->
+						<span aria-hidden="true">&times;</span>
+					</button> 
+				</div>
+				<div class="modal-body">  <!--  내용 -->
+					<form action="./sendNoteBoxAction.jsp" method="post"> 
+						<input type="hidden" id="to" name="to" class="form-control">
+						
+						<div class="form-group">
+							<label>쪽지 제목</label>
+							<input type="text" name="noteTitle" class="form-control" maxlength="20">
+						</div>
+						<div class="form-group">
+							<label>내용</label>
+							<textarea name="noteContent" class="form-control" maxlength= "2048" style="height:180px;"></textarea>
+						</div>
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" class="btn btn-success">보내기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	<script type="text/javascript">
+	
+		$('#sendNoteBoxModal').on('show.bs.modal', function (event) {
+  		var button = $(event.relatedTarget);
+  		console.log(button);
+  		var to = button.data('evaluationid'); // Extract info from data-* attributes
+  		var modal = $(this);
+  		modal.find('.modal-body input[id="to"]').val(to);
+  		console.log(to);		
+  		
+		})
+
+	</script>
+	
+	
+	
 	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFFF;">
 		Copyright &copy; 2019이승준All Right Reserved.
 	</footer>
-	<!-- 제이쿼리 자바스크립트 추가하기 -->
-	<script src="./js/jquery.min.js"></script>	
-	<!-- 파퍼 자바스크립트 추가하기 -->
-	<script src="./js/popper.min.js"></script>
-	<!-- 부트스트랩 자바스크립트 추가하기 -->
-	<script src="./js/bootstrap.min.js"></script>
+	
 </body>
 </html>
